@@ -18,8 +18,10 @@ cp ${name} ./${dockerlib}
 
 function p()
 {
-  echo "cp $(readlink -f ${1} ) ./${dockerlib}/$(basename ${1} )"
-  cp $(readlink -f ${1} ) ./${dockerlib}/$(basename ${1} )
+#  echo "cp $(readlink -f ${1} ) ./${dockerlib}/$(basename ${1} )"
+#  cp $(readlink -f ${1} ) ./${dockerlib}/$(basename ${1} )
+  echo "cp $(readlink -f ${1} ) ./${dockerlib}"
+  cp $(readlink -f ${1} ) ./${dockerlib}
   return 
 }
 
@@ -39,5 +41,14 @@ do
 done
 
 # end
+echo "copy success"
+
+# build docker images
+
+docker build -t trade/market:0.1 .
+
+docker images | grep '<none>' | awk '{ print $3 }' | xargs docker rmi -f
+
+
 echo "success"
 
